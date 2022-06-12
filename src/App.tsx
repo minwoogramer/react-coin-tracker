@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import styled, { ThemeProvider } from "styled-components";
@@ -9,6 +9,7 @@ import GlobalStyle from "./styled/GlobalStyle";
 import { darkTheme, lightTheme } from './styled/theme';
 import { faLightbulb, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { HelmetProvider } from "react-helmet-async";
+import { useLatest } from "react-use";
 
 const queryClient = new QueryClient();
 
@@ -34,12 +35,42 @@ const FloatingButton = styled.div`
   }
 `;
 
+function isPreferringDarkMode() {
+  if (window.matchMedia("(prefers-color-scheme: dark)")?.matches) {
+    return true;
+  }
+
+  return false;
+}
+
 function App() {
-  const [theme, setTheme] = useState(lightTheme);
+  const isInitPreferDarkMode = useMemo(isPreferringDarkMode, []);
+  const [theme, setTheme] = useState(isInitPreferDarkMode ? darkTheme : lightTheme);
+  const latestTheme = useLatest(theme);
 
   const onClickDarkModeButton = () => {
     setTheme((theme) => theme.name === "light" ? darkTheme : lightTheme);
   };
+
+  useEffect(() => {
+    const listener = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        if (latestTheme.current !== darkTheme) {
+          setTheme(darkTheme);
+        }
+      } else {
+        if (latestTheme.current !== lightTheme) {
+          setTheme(lightTheme);
+        }
+      }
+    };
+
+    window.matchMedia("(prefers-color-scheme: dark)")?.addEventListener("change", listener);
+
+    return () => {
+      window.matchMedia("(prefers-color-scheme: dark)")?.removeEventListener("change", listener);
+    };
+  }, [latestTheme]);
 
   return (
     <>
