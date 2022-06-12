@@ -26,10 +26,15 @@ const CoinPriceItem = styled.div`
   }
 `;
 
+const CoinPriceFooter = styled.div`
+  text-align: center;
+  font-size: 12px;
+`;
+
 function Price() {
   const { symbol } = useCoinDetailOutletContext();
   const { data: coinTicker, isLoading: isLoadingCoinTicker } = useQuery(["fetchCoinTicker", symbol], () => fetchCoinTicker(symbol), {
-    refetchInterval: 1000,
+    refetchInterval: 500,
   });
 
   let priceColor = "";
@@ -87,6 +92,9 @@ function Price() {
               <div>￦{Math.round(coinTicker.acc_trade_price_24h).toLocaleString()}</div>
             </CoinPriceItem>
             <hr/>
+            <CoinPriceFooter>
+              Upbit Open API ({(new Date(coinTicker.timestamp)).toISOString()})
+            </CoinPriceFooter>
           </div>
         ) : "Not Available"
       )}

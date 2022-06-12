@@ -21,7 +21,7 @@ function Chart() {
             series={[
               {
                 name: "Price",
-                data: coinCandles.map(coinCandle => (
+                data: coinCandles.slice(0).reverse().map(coinCandle => (
                   {
                     x: coinCandle.candle_date_time_kst,
                     y: [coinCandle.opening_price, coinCandle.high_price, coinCandle.low_price, coinCandle.trade_price],
@@ -56,7 +56,18 @@ function Chart() {
               yaxis: {
                 tickAmount: 8,
                 labels: {
-                  formatter: (val) => `￦${val.toLocaleString()}`,
+                  formatter: (val) => {
+                    const fixedLength = Math.max(0, 5 - Math.abs(Math.trunc(val)).toString().length);
+
+                    if (fixedLength === 0) {
+                      return Math.trunc(val).toLocaleString();
+                    } else {
+                      return val.toFixed(fixedLength);
+                    }
+                  },
+                },
+                tooltip: {
+                  enabled: true
                 },
               },
               tooltip: {

@@ -162,7 +162,7 @@ export async function fetchCoinTicker(coinSymbol: string) {
 }
 
 export async function fetchCoinCandles(coinSymbol: string) {
-  const coinCandles: CoinCandle[] = await fetch(`${UPBIT_BASE_URL}/candles/days?count=120&market=KRW-${coinSymbol.toUpperCase()}`, { cache: "no-store" }).then(response => response.json());
+  const coinCandles: CoinCandle[] = await fetch(`${UPBIT_BASE_URL}/candles/days?count=200&market=KRW-${coinSymbol.toUpperCase()}`, { cache: "no-store" }).then(response => response.json());
 
   return (Array.isArray(coinCandles) && coinCandles.length > 0) ? coinCandles : undefined;
 }
