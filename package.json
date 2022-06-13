@@ -1,7 +1,7 @@
 {
   "name": "react-coin-tracker",
   "version": "0.1.0",
-  "homepage": "https://njw1204.github.io/react-coin-tracker",
+  "homepage": "https://minwoogramer.github.io/react-coin-tracker",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
