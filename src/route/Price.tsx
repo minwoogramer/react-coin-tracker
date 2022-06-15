@@ -10,6 +10,7 @@ const CoinPriceItem = styled.div`
   align-items: center;
   margin-top: 8px;
   font-weight: bold;
+  border-radius: 15px;
   
   &:first-child {
     margin-top: 0;

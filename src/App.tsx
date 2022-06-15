@@ -10,6 +10,8 @@ import { darkTheme, lightTheme } from './styled/theme';
 import { faLightbulb, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { HelmetProvider } from "react-helmet-async";
 import { useLatest } from "react-use";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atom";
 
 const queryClient = new QueryClient();
 
@@ -19,7 +21,7 @@ const FloatingButton = styled.div`
   align-items: center;
   position: fixed;
   right: 0;
-  bottom: 0;
+  top: 0;
   margin: 20px;
   width: 50px;
   height: 50px;
@@ -71,19 +73,22 @@ function App() {
       window.matchMedia("(prefers-color-scheme: dark)")?.removeEventListener("change", listener);
     };
   }, [latestTheme]);
-
+  const isDark = useRecoilValue(isDarkAtom);
   return (
     <>
       <QueryClientProvider client={queryClient}>
         <HelmetProvider>
-          <ThemeProvider theme={theme}>
+          <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        
             <GlobalStyle/>
+          
             <Container>
               <Router/>
             </Container>
             <FloatingButton onClick={onClickDarkModeButton}>
               <FontAwesomeIcon icon={theme.name === "light" ? faMoon : faLightbulb}/>
             </FloatingButton>
+            
             <ReactQueryDevtools/>
           </ThemeProvider>
         </HelmetProvider>

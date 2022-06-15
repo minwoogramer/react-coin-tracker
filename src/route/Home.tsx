@@ -1,4 +1,5 @@
 import { useQuery } from "react-query";
+
 import styled from "styled-components";
 import { fetchCoins } from "../query/coin-api";
 import { Header, HeaderToolbarContainer, Title } from "../styled/Header";
@@ -42,6 +43,7 @@ const Coin = styled.li`
   }
 `;
 
+
 function getCoinIconUrl(coinSymbol: string) {
   return `https://coinicons-api.vercel.app/api/icon/${coinSymbol.toLowerCase()}`;
 }
@@ -49,14 +51,17 @@ function getCoinIconUrl(coinSymbol: string) {
 function Home() {
   const { data: coins, isLoading: isLoadingFetchCoins } = useQuery(["fetchCoins"], fetchCoins);
 
+
+
   return (
     <>
       <Helmet>
-        <title>Coin Tracker</title>
+        <title>Coin List</title>
       </Helmet>
       <Header>
         <HeaderToolbarContainer>
-          <Title>Coin Tracker</Title>
+          <Title>Coin List</Title>
+         
         </HeaderToolbarContainer>
       </Header>
       <Main>

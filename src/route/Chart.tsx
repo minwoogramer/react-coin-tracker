@@ -3,11 +3,13 @@ import { useQuery } from "react-query";
 import { fetchCoinCandles } from "../query/coin-api";
 import { Loader } from "../styled/Loader";
 import ReactApexChart from "react-apexcharts";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atom";
 
 function Chart() {
   const { symbol } = useCoinDetailOutletContext();
   const { data: coinCandles, isLoading: isLoadingCoinCandles } = useQuery(["fetchCoinCandles", symbol], () => fetchCoinCandles(symbol));
-
+  const isDark = useRecoilValue(isDarkAtom);
   return (
     <>
       {isLoadingCoinCandles ? (
